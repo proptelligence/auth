@@ -1,0 +1,28 @@
+service: app-test
+
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  stage: prod
+  region: ap-south-1
+  environment:
+
+functions:
+  app:
+    handler: app.server
+    events:
+      - http:
+          path: /
+          method: any
+          cors: true
+      - http:
+          path: /{proxy+}
+          method: ANY
+          cors: true
+custom:
+  apigwBinary:
+    types:
+      - "application/json"
+      - "application/javascript"
